@@ -1,25 +1,29 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import {Button} from '@material-ui/core';
+import {Subject} from 'rxjs/Subject';
 import './App.css';
 
 class App extends Component {
+
+  static eventbus = null;
+
+  constructor(props){
+    super(props);
+    if (!window.jsplumb_demo.eventbus){
+      window.jsplumb_demo.eventbus = new Subject();
+    }
+    this.eventbus = window.jsplumb_demo.eventbus;
+  }
+
+  handleButtonClick = () => {
+    this.eventbus.next('new-button');
+  }
+
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <h3>React Lives Here!</h3>
+        <Button color="primary" variant="contained" onClick={this.handleButtonClick}>Add new node</Button>
       </div>
     );
   }
